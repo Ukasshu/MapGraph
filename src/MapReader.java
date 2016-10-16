@@ -27,7 +27,6 @@ public class MapReader {
         this.file = new File(filename);
         areNodesAlreadyRead = false;
         areWaysAlreadyRead = false;
-        //System.out.println("File Opened"); //TODO: USUNAC
     }
 
     public void openStream() throws FileNotFoundException {
@@ -45,17 +44,10 @@ public class MapReader {
         double tempLon;
         this.currentLine = input.nextLine();
         while(!currentLine.matches("(.*)<way (.*)") && input.hasNextLine()){
-            //System.out.println("Czytam"); //TODO: USUNAC
             if(currentLine.matches("(.*)<node (.*)")){
-                //System.out.println("Found Node"); //TODO: USUNAC
                 tempId = this.currentLine.substring(this.currentLine.indexOf("id")+4, this.currentLine.indexOf('\"',this.currentLine.indexOf("id")+4));
-                //System.out.println("Wczytano id "+ tempId +" " +currentLine); //TODO: USUNAC
-                //System.out.println("lat "+ this.currentLine.indexOf("lat")); //TODO: USUNAC
-                //System.out.println(this.currentLine.indexOf('\"',this.currentLine.indexOf("lat")+5)); //TODO: USUNAC
                 tempLat = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lat")+5, this.currentLine.indexOf('\"',this.currentLine.indexOf("lat")+5)));
-                //System.out.println("Wczytano Lat" + currentLine); //TODO: USUNAC
                 tempLon = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lon")+5, this.currentLine.indexOf("\"", this.currentLine.indexOf("lon")+5)));
-                //System.out.println("Wczytano Lon"); //TODO: USUNAC
                 nodes.put(tempId, new Node(tempId, tempLat, tempLon));
             }
             this.currentLine =input.nextLine();
@@ -83,6 +75,17 @@ public class MapReader {
                     currentLine = input.nextLine();
                 }
                 if(newWay.isCorrect()){
+                    while(!currentLine.matches("(.*)</way>(.*)")){
+                        if(currentLine.matches("(.*)k=\"highway\"(.*)")){
+                            newWay.setType(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
+                            System.out.println("Znalazlem typ" + newWay.getType()); //TODO: USUNAC
+                        }
+                        else if(currentLine.matches("(.*)k=\"name\"(.*)")){
+                            newWay.setName(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
+                            System.out.println("Znalazlem nazwe" + newWay.getName()); //TODO: USUNAC
+                        }
+                        currentLine = input.nextLine();
+                    }
                     ways.add(newWay);
                 }
             }

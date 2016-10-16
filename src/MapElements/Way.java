@@ -12,6 +12,8 @@ public class Way {
 
     public Way(){
         nodes = new ArrayList<>();
+        type = null;
+        name = null;
     }
 
     public void addNode(Node node){
@@ -19,7 +21,7 @@ public class Way {
     }
 
     public boolean isCorrect(){
-        return this.nodes.get(0).equals(this.nodes.get(this.nodes.size()-1));
+        return !this.nodes.get(0).getId().equals(this.nodes.get(this.nodes.size() -1).getId());
     }
 
     public void setType(String type){

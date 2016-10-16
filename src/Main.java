@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,7 +9,7 @@ public class Main {
     public static void main(String[] args){
         MapReader mapReader = new MapReader();
         try{
-            mapReader.openFile("/home/lukasz/Pulpit/map");
+            mapReader.openFile("/home/lukasz/Pulpit/lessmap");
             mapReader.run();
             HashMap<String, Node> nodes = mapReader.getNodes();
             ArrayList<Way> ways = mapReader.getWays();
@@ -19,10 +18,10 @@ public class Main {
             }
             for(Way w: ways){
                 for(Node n: w.getNodes())
-                    System.out.println("W"+ n.getId() + " " + n.getLatitude() + " " + n.getLongitude());
+                    System.out.println("W"+ n.getId() + " " + n.getLatitude() + " " + n.getLongitude() + (w.getName()!=null? " " + w.getName():" -") + (w.getType()!=null? " " + w.getType():" -"));
             }
         }catch(Exception e) {
             e.printStackTrace();
-        };
+        }
     }
 }
