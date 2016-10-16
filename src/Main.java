@@ -17,8 +17,9 @@ public class Main {
                 System.out.println(nodes.get(key).getId() + " " + nodes.get(key).getLatitude() + " " + nodes.get(key).getLongitude());
             }
             for(Way w: ways){
+                System.out.println(w.getName() + " " + w.getType());
                 for(Node n: w.getNodes())
-                    System.out.println("W"+ n.getId() + " " + n.getLatitude() + " " + n.getLongitude() + (w.getName()!=null? " " + w.getName():" -") + (w.getType()!=null? " " + w.getType():" -"));
+                    System.out.println("W"+ n.getId() + " " + n.getLatitude() + " " + n.getLongitude() + " " + n.getWaysCounter() + (w.getName()!=null? " " + w.getName():" -") + (w.getType()!=null? " " + w.getType():" -"));
             }
         }catch(Exception e) {
             e.printStackTrace();

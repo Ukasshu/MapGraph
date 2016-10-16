@@ -64,7 +64,6 @@ public class MapReader {
         }
         ways = new ArrayList<>();
         while(input.hasNextLine() ) {
-
             if (currentLine.matches("(.*)<way(.*)")) {
                 Way newWay = new Way();
                 String nodeId;
@@ -76,15 +75,16 @@ public class MapReader {
                 }
                 if(newWay.isCorrect()){
                     while(!currentLine.matches("(.*)</way>(.*)")){
-                        if(currentLine.matches("(.*)k=\"highway\"(.*)")){
+                        if(currentLine.matches("(.*)tag k=\"highway\"(.*)")){
                             newWay.setType(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
-                            System.out.println("Znalazlem typ" + newWay.getType()); //TODO: USUNAC
                         }
-                        else if(currentLine.matches("(.*)k=\"name\"(.*)")){
+                        else if(currentLine.matches("(.*)tag k=\"name\"(.*)")){
                             newWay.setName(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
-                            System.out.println("Znalazlem nazwe" + newWay.getName()); //TODO: USUNAC
                         }
                         currentLine = input.nextLine();
+                    }
+                    for(Node n: newWay.getNodes()){
+                        n.increaseWaysCounter();
                     }
                     ways.add(newWay);
                 }

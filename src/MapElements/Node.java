@@ -7,11 +7,13 @@ public class Node {
     private final String id;
     private final double latitude;
     private final double longitude;
+    private int waysCounter;
 
     public Node(String id, double latitude, double longitude){
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
+        waysCounter = 0;
     }
 
     public double getLatitude(){
@@ -26,7 +28,11 @@ public class Node {
         return this.id;
     }
 
-    @Override
+    public int getWaysCounter(){
+        return waysCounter;
+    }
+
+    /*@Override
     public boolean equals(Object obj){
         if(obj == null){
             return false;
@@ -39,5 +45,10 @@ public class Node {
             return false;
         }
         return true;
+    }*/
+
+    public Node increaseWaysCounter(){
+        waysCounter++;
+        return this;
     }
 }
