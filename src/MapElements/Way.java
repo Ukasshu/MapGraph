@@ -37,4 +37,8 @@ public class Way {
     public String getName(){
         return this.name;
     }
+
+    public ArrayList<Node> getNodes(){
+        return nodes;
+    }
 }
