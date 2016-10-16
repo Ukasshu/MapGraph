@@ -10,6 +10,7 @@ public class MapReader {
     private File file;
     private Scanner input;
     private boolean areNodesAlreadyRead;
+    private String currentLine;
 
     MapReader(){
         this.areNodesAlreadyRead = false;
@@ -26,7 +27,19 @@ public class MapReader {
 
     HashMap<String, Node> readNodes() {
         HashMap<String, Node> nodes = new HashMap<String, Node>();
-
+        String tempId;
+        double tempLat;
+        double tempLon;
+        this.currentLine = input.nextLine();
+        while(!currentLine.matches("^<way id=")){
+            if(currentLine.matches("^<node id=")){
+                tempId = this.currentLine.substring(this.currentLine.indexOf("id")+4, this.currentLine.indexOf("\"",this.currentLine.indexOf("id")+4));
+                tempLat = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lat")+5, this.currentLine.indexOf("\"", this.currentLine.indexOf(this.currentLine.indexOf("lat")+5))));
+                tempLon = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lon")+5, this.currentLine.indexOf("\"", this.currentLine.indexOf(this.currentLine.indexOf("lon")+5))));
+                nodes.put(tempId, new Node(tempId, tempLat, tempLon));
+            }
+            this.currentLine =input.nextLine();
+        }
         return nodes;
     }
 }
