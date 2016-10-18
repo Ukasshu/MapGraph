@@ -10,7 +10,7 @@ public class Way {
     private ArrayList<Node> nodes;
     private String type;
     private String name;
-    private static final List<String> allowedTypes = Arrays.asList("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "service", "living street", "pedestrian", "track", "bus_guideway", "escape", "raceway", "road");
+    private static final List<String> allowedTypes = Arrays.asList("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "service", "living_street", "pedestrian", "track", "bus_guideway", "escape", "raceway", "road");
 
     public Way(){
         nodes = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Way {
     }
 
     public boolean isCorrect(){
-        return !this.nodes.get(0).getId().equals(this.nodes.get(this.nodes.size() -1).getId());
+        return (!this.nodes.get(0).getId().equals(this.nodes.get(this.nodes.size() -1).getId())) && allowedTypes.contains(this.type);
     }
 
     public void setType(String type){

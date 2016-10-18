@@ -73,16 +73,16 @@ public class MapReader {
                     newWay.addNode(nodes.get(nodeId));
                     currentLine = input.nextLine();
                 }
-                if(newWay.isCorrect()){
-                    while(!currentLine.matches("(.*)</way>(.*)")){
-                        if(currentLine.matches("(.*)tag k=\"highway\"(.*)")){
-                            newWay.setType(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
-                        }
-                        else if(currentLine.matches("(.*)tag k=\"name\"(.*)")){
-                            newWay.setName(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
-                        }
-                        currentLine = input.nextLine();
+                while(!currentLine.matches("(.*)</way>(.*)")){
+                    if(currentLine.matches("(.*)tag k=\"highway\"(.*)")){
+                        newWay.setType(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
                     }
+                    else if(currentLine.matches("(.*)tag k=\"name\"(.*)")){
+                        newWay.setName(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
+                    }
+                    currentLine = input.nextLine();
+                }
+                if(newWay.isCorrect()){
                     for(Node n: newWay.getNodes()){
                         n.increaseWaysCounter();
                     }
