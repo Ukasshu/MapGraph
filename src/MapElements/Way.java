@@ -1,7 +1,8 @@
 package MapElements;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.List;
 /**
  * Created by lukasz on 16.10.16.
  */
@@ -9,6 +10,7 @@ public class Way {
     private ArrayList<Node> nodes;
     private String type;
     private String name;
+    private static final List<String> allowedTypes = Arrays.asList("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "service", "living street", "pedestrian", "track", "bus_guideway", "escape", "raceway", "road");
 
     public Way(){
         nodes = new ArrayList<>();
