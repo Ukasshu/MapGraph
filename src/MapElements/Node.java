@@ -1,19 +1,24 @@
 package MapElements;
 
+import java.util.ArrayList;
+
 /**
  * Created by lukasz on 15.10.16.
  */
 public class Node {
-    private final String id;
+    private String id;
     private final double latitude;
     private final double longitude;
     private int waysCounter;
+    private ArrayList<Node> edges;
+    private boolean newId;
 
     public Node(String id, double latitude, double longitude){
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         waysCounter = 0;
+        this.newId = false;
     }
 
     public double getLatitude(){
@@ -50,5 +55,18 @@ public class Node {
     public Node increaseWaysCounter(){
         waysCounter++;
         return this;
+    }
+
+    public void addEdge(Node node){
+        this.edges.add(node);
+    }
+
+    public boolean hasNewId(){
+        return newId;
+    }
+
+    public void setNewId(String newId){
+        this.id = newId;
+        this.newId = true;
     }
 }

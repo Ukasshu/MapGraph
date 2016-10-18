@@ -94,7 +94,7 @@ public class MapReader {
         areWaysAlreadyRead=true;
     }
 
-    public void run() throws NodesAlreadyReadException, NodesNotReadYetException, WaysAlreadyReadException, FileNotFoundException{
+    public void runReader() throws NodesAlreadyReadException, NodesNotReadYetException, WaysAlreadyReadException, FileNotFoundException{
         this.openStream();
         this.readNodes();
         this.readWays();

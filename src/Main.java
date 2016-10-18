@@ -8,11 +8,13 @@ import MapElements.*;
 public class Main {
     public static void main(String[] args){
         MapReader mapReader = new MapReader();
+        DataConverter dataConverter;
         try{
-            mapReader.openFile("/home/lukasz/Pulpit/lessmap");
-            mapReader.run();
+            mapReader.openFile("/home/lukasz/Pulpit/map");
+            mapReader.runReader();
             HashMap<String, Node> nodes = mapReader.getNodes();
             ArrayList<Way> ways = mapReader.getWays();
+            dataConverter = new DataConverter(mapReader.getNodes(), mapReader.getWays());
             for(String key : nodes.keySet()){
                 System.out.println(nodes.get(key).getId() + " " + nodes.get(key).getLatitude() + " " + nodes.get(key).getLongitude());
             }
@@ -21,6 +23,7 @@ public class Main {
                 for(Node n: w.getNodes())
                     System.out.println("W"+ n.getId() + " " + n.getLatitude() + " " + n.getLongitude() + " " + n.getWaysCounter() + (w.getName()!=null? " " + w.getName():" -") + (w.getType()!=null? " " + w.getType():" -"));
             }
+            System.out.println(ways.size());
         }catch(Exception e) {
             e.printStackTrace();
         }
