@@ -11,6 +11,7 @@ public class Node {
     private final double longitude;
     private int waysCounter;
     private ArrayList<Node> edges;
+    private boolean needed =false;
     private boolean newId;
 
     public Node(String id, double latitude, double longitude){
@@ -62,11 +63,19 @@ public class Node {
     }
 
     public boolean hasNewId(){
-        return newId;
+        return this.newId;
     }
 
     public void setNewId(String newId){
         this.id = newId;
         this.newId = true;
+    }
+
+    public void setNeeded(){
+        this.needed = true;
+    }
+
+    public boolean isNeeded(){
+        return needed;
     }
 }

@@ -3,6 +3,7 @@ import DataConverterExceptions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by lukasz on 18.10.16.
@@ -18,9 +19,27 @@ public class DataConverter {
     }
 
     private void removeUnnecessaryNodes() {
+        ArrayList<Node> unnecessaryNodes = new ArrayList<>();
         for(String key: nodes.keySet()){
-            if(nodes.get(key).getWaysCounter() == 0){
-                nodes.remove(key);
+            if(!nodes.get(key).isNeeded()){
+                unnecessaryNodes.add(nodes.get(key));
+            }
+        }
+        for(Node node : unnecessaryNodes){
+            nodes.remove(node.getId());
+        }
+    }
+
+    private void markNonCrossroadsNodes(){
+        Node currentNode;
+        for(Way way: ways){
+            way.getNodes().get(0).setNeeded();
+            Iterator<Node> iterator = way.getNodes().listIterator(0);
+            while(iterator.hasNext()){
+                currentNode = iterator.next();
+                if(currentNode.getWaysCounter() != 1 || !iterator.hasNext()){
+                    currentNode.setNeeded();
+                }
             }
         }
     }
@@ -41,6 +60,7 @@ public class DataConverter {
     }
 
     public void runConverter(){
+        this.markNonCrossroadsNodes();
         this.removeUnnecessaryNodes();
         this.convertWaysIntoEdges();
         this.areDataConververted = true;
