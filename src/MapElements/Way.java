@@ -11,11 +11,13 @@ public class Way {
     private String type;
     private String name;
     private static final List<String> allowedTypes = Arrays.asList("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential"/*, "service"*/, "living_street", "pedestrian"/*, "track", "bus_guideway", "escape", "raceway", "road"*/, "primary_link", "secondary_link", "tertiary_link", "trunk_link", "motorway_link");
+    private boolean roundabout;
 
     public Way(){
         nodes = new ArrayList<>();
         type = null;
         name = null;
+        roundabout = false;
     }
 
     public void addNode(Node node){
@@ -23,7 +25,7 @@ public class Way {
     }
 
     public boolean isCorrect(){
-        return (!this.nodes.get(0).getId().equals(this.nodes.get(this.nodes.size() -1).getId())) && allowedTypes.contains(this.type);
+        return ((!this.nodes.get(0).getId().equals(this.nodes.get(this.nodes.size() -1).getId())) || this.roundabout) && (allowedTypes.contains(this.type));
     }
 
     public void setType(String type){
@@ -45,4 +47,13 @@ public class Way {
     public ArrayList<Node> getNodes(){
         return nodes;
     }
+
+    public void setRoundabout(){
+        this.roundabout = true;
+    }
+
+    public boolean isRoundabout(){
+        return this.roundabout;
+    }
+
 }
