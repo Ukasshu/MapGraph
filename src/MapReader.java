@@ -21,6 +21,7 @@ public class MapReader {
 
     MapReader(){
         this.areNodesAlreadyRead = false;
+        this.areWaysAlreadyRead = false;
     }
 
     public void openFile(String filename) throws FileNotFoundException{
@@ -79,6 +80,10 @@ public class MapReader {
                     }
                     else if(currentLine.matches("(.*)tag k=\"name\"(.*)")){
                         newWay.setName(currentLine.substring(currentLine.indexOf("v=\"")+3, currentLine.indexOf('\"', currentLine.indexOf("v=\"")+3)));
+                    }
+                    else if(currentLine.matches("(.*)tag k=\"junction\" v=\"roundabout\"(.*)")){
+                        newWay.setRoundabout();
+                        newWay.getNodes().remove(newWay.getNodes().size()-1);
                     }
                     currentLine = input.nextLine();
                 }

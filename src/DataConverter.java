@@ -33,11 +33,14 @@ public class DataConverter {
     private void markNonCrossroadsNodes(){
         Node currentNode;
         for(Way way: ways){
-            way.getNodes().get(0).setNeeded();
+            if(!way.isRoundabout()){
+                way.getNodes().get(0).setNeeded();
+                way.getNodes().get(way.getNodes().size()-1).setNeeded();
+            }
             Iterator<Node> iterator = way.getNodes().listIterator(0);
             while(iterator.hasNext()){
                 currentNode = iterator.next();
-                if(currentNode.getWaysCounter() != 1 || !iterator.hasNext()){
+                if(currentNode.getWaysCounter() > 1){
                     currentNode.setNeeded();
                 }
             }
@@ -49,11 +52,15 @@ public class DataConverter {
         int nodesCounter = 1;
         for(Way way:ways){
             for(Node node: way.getNodes()){
-                if(previousNode != null){
-                    node.addEdge(previousNode);
-                }
-                if(!node.hasNewId()){
-                    node.setNewId(Integer.toString(nodesCounter++));
+                if(node.isNeeded()) {
+                    if (previousNode != null && Long.parseLong(node.getId()) < Long.parseLong(previousNode.getId())) {
+                        node.addEdge(previousNode);
+                        previousNode.addEdge(node);
+                    }
+                    //if (!node.hasNewId()) {
+                    //    node.setNewId(Integer.toString(nodesCounter++));
+                    //}
+                    previousNode = node;
                 }
             }
         }
