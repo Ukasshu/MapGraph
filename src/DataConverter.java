@@ -30,7 +30,7 @@ public class DataConverter {
         }
     }
 
-    private void markNonCrossroadsNodes(){
+    private void markUnnecessaryNodes(){
         Node currentNode;
         for(Way way: ways){
             if(!way.isRoundabout()){
@@ -38,6 +38,7 @@ public class DataConverter {
                 way.getNodes().get(way.getNodes().size()-1).setNeeded();
             }
             Iterator<Node> iterator = way.getNodes().listIterator(0);
+
             while(iterator.hasNext()){
                 currentNode = iterator.next();
                 if(currentNode.getWaysCounter() > 1){
@@ -48,9 +49,10 @@ public class DataConverter {
     }
 
     private void convertWaysIntoEdges(){
-        Node previousNode = null;
-        int nodesCounter = 1;
+        Node previousNode;
+        //int nodesCounter = 1;
         for(Way way:ways){
+            previousNode = null;
             for(Node node: way.getNodes()){
                 if(node.isNeeded()) {
                     if (previousNode != null && Long.parseLong(node.getId()) < Long.parseLong(previousNode.getId())) {
@@ -59,7 +61,6 @@ public class DataConverter {
                     }
                     //if (!node.hasNewId()) {
                     //    node.setNewId(Integer.toString(nodesCounter++));
-                    //}
                     previousNode = node;
                 }
             }
@@ -67,7 +68,7 @@ public class DataConverter {
     }
 
     public void runConverter(){
-        this.markNonCrossroadsNodes();
+        this.markUnnecessaryNodes();
         this.removeUnnecessaryNodes();
         this.convertWaysIntoEdges();
         this.areDataConververted = true;

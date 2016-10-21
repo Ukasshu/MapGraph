@@ -18,6 +18,7 @@ public class MapReader {
     private String currentLine;
     private HashMap<String, Node> nodes;
     private ArrayList<Way> ways;
+    private double bounds[];
 
     MapReader(){
         this.areNodesAlreadyRead = false;
@@ -35,6 +36,22 @@ public class MapReader {
         //System.out.println("Stream Opened"); //TODO: USUNAC
     }
 
+    private void readBounds() throws NodesAlreadyReadException{
+        bounds = new double[4];
+        if (areNodesAlreadyRead){
+            throw new NodesAlreadyReadException("Too late to read bounds!");
+        }
+        this.currentLine = input.nextLine();
+        while(!this.currentLine.matches("(.*)<bounds minlat(.*)")){
+            this.currentLine = input.nextLine();
+        }
+        bounds[0] = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("minlat")+8, this.currentLine.indexOf('\"', this.currentLine.indexOf("minlat")+8)));
+        bounds[1] = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("minlon")+8, this.currentLine.indexOf('\"', this.currentLine.indexOf("minlon")+8)));
+        bounds[2] = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("maxlat")+8, this.currentLine.indexOf('\"', this.currentLine.indexOf("maxlat")+8)));
+        bounds[3] = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("maxlon")+8, this.currentLine.indexOf('\"', this.currentLine.indexOf("maxlon")+8)));
+
+    }
+
     private void readNodes() throws NodesAlreadyReadException {
         if(areNodesAlreadyRead){
             throw new NodesAlreadyReadException("Nodes have been already read from this file! Reopen file to do this again.");
@@ -50,6 +67,7 @@ public class MapReader {
                 tempLat = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lat")+5, this.currentLine.indexOf('\"',this.currentLine.indexOf("lat")+5)));
                 tempLon = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lon")+5, this.currentLine.indexOf("\"", this.currentLine.indexOf("lon")+5)));
                 nodes.put(tempId, new Node(tempId, tempLat, tempLon));
+                //System.out.println(tempId + " " + tempLat + " " + tempLon);
             }
             this.currentLine =input.nextLine();
         }
@@ -101,6 +119,7 @@ public class MapReader {
 
     public void runReader() throws NodesAlreadyReadException, NodesNotReadYetException, WaysAlreadyReadException, FileNotFoundException{
         this.openStream();
+        readBounds();
         this.readNodes();
         this.readWays();
     }
@@ -110,6 +129,10 @@ public class MapReader {
             throw new NodesNotReadYetException("Try to get nodes after reading them!");
         }
         return nodes;
+    }
+
+    public double[] getBounds(){
+        return bounds;
     }
 
     public ArrayList<Way> getWays() throws WaysNotReadYetException{

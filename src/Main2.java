@@ -33,7 +33,7 @@ public class Main2 {
             System.out.println(nodes.size());
             Node n;
             int i = 0;
-            for(String key: nodes.keySet()){
+            /*for(String key: nodes.keySet()){
                 i++;
                 n = nodes.get(key);
                 output.println("{" + i);
@@ -47,7 +47,7 @@ public class Main2 {
                 }
                 output.println("}");
                 output.println("");
-            }
+            }*/
             output.close();
             System.out.println(nodes.size());
             System.out.println(ways.size());

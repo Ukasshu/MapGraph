@@ -13,7 +13,7 @@ public class Node {
     private int waysCounter;
     private ArrayList<Node> edges;
     private ArrayList<Double> distances;
-    private boolean needed =false;
+    private boolean needed;
     //private boolean newId;
 
     public Node(String id, double latitude, double longitude){
@@ -21,6 +21,7 @@ public class Node {
         this.latitude = latitude;
         this.longitude = longitude;
         waysCounter = 0;
+        needed =false;
         //this.newId = false;
         edges = new ArrayList<>();
         distances = new ArrayList<>();
@@ -89,13 +90,17 @@ public class Node {
     }
 
     public double distance(Node node){
-        double R = 6371e6;
+        double R = 6371e3;
         double phi1 = Math.toRadians(this.latitude);
         double phi2 = Math.toRadians(node.getLatitude());
         double deltaPhi = Math.toRadians(node.getLatitude() - this.latitude);
         double deltaLambda = Math.toRadians(node.getLongitude() - this.longitude);
-        double a = Math.sin(deltaPhi/2)*Math.sin(deltaPhi/2)+Math.cos(phi1)*Math.cos(phi2)+Math.sin(deltaLambda/2)*Math.sin(deltaLambda/2);
+        double a = Math.sin(deltaPhi/2)*Math.sin(deltaPhi/2)+Math.cos(phi1)*Math.cos(phi2)*Math.sin(deltaLambda/2)*Math.sin(deltaLambda/2);
         double c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         return R*c;
+    }
+
+    public ArrayList<Double> getDistances(){
+        return distances;
     }
 }

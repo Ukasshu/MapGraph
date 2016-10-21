@@ -10,7 +10,7 @@ public class Way {
     private ArrayList<Node> nodes;
     private String type;
     private String name;
-    private static final List<String> allowedTypes = Arrays.asList("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential"/*, "service"*/, "living_street", "pedestrian"/*, "track", "bus_guideway", "escape", "raceway", "road"*/, "primary_link", "secondary_link", "tertiary_link", "trunk_link", "motorway_link");
+    private static final List<String> allowedTypes = Arrays.asList("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "service", "living_street", "pedestrian", /*"track", "bus_guideway", "escape", "raceway", "road",*/ "primary_link", "secondary_link", "tertiary_link", "trunk_link", "motorway_link");
     private boolean roundabout;
 
     public Way(){
