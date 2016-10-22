@@ -46,7 +46,6 @@ public class DataConverterRemastered {
             }
             else if(currentNode.getWaysCounter()<=1){
                 iterator.remove();
-                //unnecessaryNodes.add(currentNode);
             }
         }
     }

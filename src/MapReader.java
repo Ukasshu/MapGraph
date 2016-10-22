@@ -33,7 +33,6 @@ public class MapReader {
 
     public void openStream() throws FileNotFoundException {
         this.input = new Scanner(file);
-        //System.out.println("Stream Opened"); //TODO: USUNAC
     }
 
     private void readBounds() throws NodesAlreadyReadException{
@@ -67,7 +66,6 @@ public class MapReader {
                 tempLat = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lat")+5, this.currentLine.indexOf('\"',this.currentLine.indexOf("lat")+5)));
                 tempLon = Double.parseDouble(this.currentLine.substring(this.currentLine.indexOf("lon")+5, this.currentLine.indexOf("\"", this.currentLine.indexOf("lon")+5)));
                 nodes.put(tempId, new Node(tempId, tempLat, tempLon));
-                //System.out.println(tempId + " " + tempLat + " " + tempLon);
             }
             this.currentLine =input.nextLine();
         }

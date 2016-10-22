@@ -14,7 +14,6 @@ public class Node {
     private ArrayList<Node> edges;
     private ArrayList<Double> distances;
     private boolean needed;
-    //private boolean newId;
 
     public Node(String id, double latitude, double longitude){
         this.id = id;
@@ -43,21 +42,6 @@ public class Node {
         return waysCounter;
     }
 
-    /*@Override
-    public boolean equals(Object obj){
-        if(obj == null){
-            return false;
-        }
-        if(!Node.class.isAssignableFrom(obj.getClass())){
-            return false;
-        }
-        final Node other = (Node) obj;
-        if((this.id == null)? (other.id != null): !this.id.equals(other.id)){
-            return false;
-        }
-        return true;
-    }*/
-
     public Node increaseWaysCounter(){
         waysCounter++;
         return this;
@@ -67,15 +51,6 @@ public class Node {
         this.edges.add(node);
         this.distances.add(this.distance(node));
     }
-
-    /*public boolean hasNewId(){
-        return this.newId;
-    }*/
-
-    /*public void setNewId(String newId){
-        this.id = newId;
-        this.newId = true;
-    }*/
 
     public void setNeeded(){
         this.needed = true;

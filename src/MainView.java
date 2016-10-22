@@ -1,5 +1,6 @@
 import MapElements.Node;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
@@ -14,13 +16,14 @@ public class MainView extends JDialog {
     private JPanel contentPane;
     private JButton openFileButton;
     private JButton processButton;
-    private JButton saveButton;
+    private JButton saveAsTextButton;
     private JLabel image;
+    private JButton saveAsImageButton;
     private String path;
     MapReader mapReader;
     DataConverterRemastered dataConverter;
     HashMap<String, Node> nodes;
-    BufferedImage graph;
+    BufferedImage graph =null;
     double bounds[];
     int height;
     int width;
@@ -63,10 +66,16 @@ public class MainView extends JDialog {
             }
         });
 
-        saveButton.addActionListener(new ActionListener() {
+        saveAsTextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveFile();
+            }
+        });
+        saveAsImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveImage();
             }
         });
     }
@@ -121,6 +130,24 @@ public class MainView extends JDialog {
             }catch(NullPointerException e){
                 JOptionPane.showMessageDialog(contentPane, "Error: you didn't process any file");
             }
+        }
+    }
+
+    private void saveImage(){
+        JFileChooser fc = new JFileChooser();
+        final int returnedValue = fc.showSaveDialog(contentPane);
+        if(returnedValue == JFileChooser.APPROVE_OPTION){
+            try {
+                File file = fc.getSelectedFile();
+                ImageIO.write(graph, "png", file);
+            }catch(IOException e){
+                JOptionPane.showMessageDialog(contentPane, "Error: cannot save file");
+            }catch(IllegalArgumentException e){
+                JOptionPane.showMessageDialog(contentPane, "Error: you didn't process any file");
+            }
+        }
+        else{
+
         }
     }
 

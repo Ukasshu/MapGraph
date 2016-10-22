@@ -23,7 +23,9 @@
         <children>
           <component id="32cab" class="javax.swing.JLabel" binding="image">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="800" height="-1"/>
+              </grid>
             </constraints>
             <properties>
               <text value="Output"/>
@@ -49,7 +51,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="9538f" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="9538f" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -59,26 +61,47 @@
             <children>
               <component id="34e88" class="javax.swing.JButton" binding="openFileButton">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="100" height="20"/>
+                  </grid>
                 </constraints>
                 <properties>
+                  <background color="-12517323"/>
+                  <foreground color="-9782377"/>
                   <text value="Open file"/>
                 </properties>
               </component>
               <component id="4eb14" class="javax.swing.JButton" binding="processButton">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="100" height="20"/>
+                  </grid>
                 </constraints>
                 <properties>
+                  <foreground color="-9782377"/>
                   <text value="Process"/>
                 </properties>
               </component>
-              <component id="8b3c" class="javax.swing.JButton" binding="saveButton">
+              <component id="8b3c" class="javax.swing.JButton" binding="saveAsTextButton">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="100" height="20"/>
+                  </grid>
                 </constraints>
                 <properties>
-                  <text value="Save"/>
+                  <foreground color="-9782377"/>
+                  <text value="Save as text"/>
+                </properties>
+              </component>
+              <component id="c9f7d" class="javax.swing.JButton" binding="saveAsImageButton" default-binding="true">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="100" height="20"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <foreground color="-9782377"/>
+                  <text value="Save as image"/>
                 </properties>
               </component>
             </children>

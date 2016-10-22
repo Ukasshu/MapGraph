@@ -59,8 +59,6 @@ public class DataConverter {
                         node.addEdge(previousNode);
                         previousNode.addEdge(node);
                     }
-                    //if (!node.hasNewId()) {
-                    //    node.setNewId(Integer.toString(nodesCounter++));
                     previousNode = node;
                 }
             }
