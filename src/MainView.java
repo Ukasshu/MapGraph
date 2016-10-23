@@ -100,18 +100,14 @@ public class MainView extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     mapReader.openFile(path);
-                    System.out.println(10);
                     mapReader.runReader();
                     bounds = mapReader.getBounds();
-                    System.out.println(40);
                     dataConverter = new DataConverter(mapReader.getNodes(), mapReader.getWays());
                     dataConverter.runConverter();
-                    System.out.println(80);
                     nodes = dataConverter.returnConvertedNodes();
                     height = 400;
                     width = (int)Math.round(400 * (bounds[3]-bounds[1])/(bounds[2]-bounds[0]));
                     drawMapGraph();
-                    System.out.println(100);
                 }catch(FileNotFoundException fileException){
                     JOptionPane.showMessageDialog(contentPane, "Error: file may not exist yet");
                 }catch(Exception anotherException){
@@ -175,18 +171,15 @@ public class MainView extends JDialog {
             try {
                 PrintWriter output = new PrintWriter(path);
                 Node n;
-                int i=0;
                 for(String key: nodes.keySet()){
-                    i++;
                     n = nodes.get(key);
-                    output.println("{" + i);
+                    output.println("{");
                     output.println("\tId: "+n.getId());
                     output.println("\tLatitude: "+n.getLatitude());
                     output.println("\tLongitude: "+n.getLongitude());
                     output.println("\tGraph edges: ");
                     for(Node node: n.getEdges()){
                         output.println("\t\t"+node.getId() + " " + n.distance(node));
-                        System.out.println(i);
                     }
                     output.println("}");
                     output.println("");
