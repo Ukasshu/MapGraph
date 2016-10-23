@@ -1,4 +1,5 @@
 import MapElements.Node;
+import sun.plugin2.util.ColorUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,27 +13,78 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+/**
+ * Class providing GUI
+ *
+ * @author Łukasz Mielczarek
+ * @version 22.10.2016
+ */
 public class MainView extends JDialog {
+    /**
+     * Main panel
+     */
     private JPanel contentPane;
+    /**
+     * "Open file" button
+     */
     private JButton openFileButton;
+    /**
+     * "Process" button
+     */
     private JButton processButton;
+    /**
+     * "Save as text" button
+     */
     private JButton saveAsTextButton;
-    private JLabel image;
+    /**
+     * "Save as image" button
+     */
     private JButton saveAsImageButton;
+    /**
+     * Label where graph will have been drawn
+     */
+    private JLabel image;
+    /**
+     * String holding path to the file that will be opened
+     */
     private String path;
-    MapReader mapReader;
-    DataConverterRemastered dataConverter;
-    HashMap<String, Node> nodes;
-    BufferedImage graph =null;
-    double bounds[];
-    int height;
-    int width;
+    /**
+     * Holds MapReader that will be reading file
+     */
+    private MapReader mapReader;
+    /**
+     * Holds DataConverter that will be converting data
+     */
+    private DataConverter dataConverter;
+    /**
+     * Container which will be holding converted data
+     */
+    private HashMap<String, Node> nodes;
+    /**
+     * Used to create graphical version of graph
+     */
+    private BufferedImage graph =null;
+    /**
+     * Holds map's boundaries provided by MapReader
+     */
+    private double bounds[];
+    /**
+     * Height of image
+     */
+    private int height;
+    /**
+     * Width of image
+     */
+    private int width;
 
+    /**
+     * Default constructor
+     */
     public MainView() {
         setContentPane(contentPane);
         setModal(true);
         setTitle("MapGraph");
-        //setResizable(false);
+        setResizable(false);
         setFocusableWindowState(true);
         openFileButton.addActionListener(new ActionListener() {
             @Override
@@ -49,14 +101,18 @@ public class MainView extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     mapReader.openFile(path);
+                    System.out.println(10);
                     mapReader.runReader();
                     bounds = mapReader.getBounds();
-                    dataConverter = new DataConverterRemastered(mapReader.getNodes(), mapReader.getWays());
+                    System.out.println(40);
+                    dataConverter = new DataConverter(mapReader.getNodes(), mapReader.getWays());
                     dataConverter.runConverter();
+                    System.out.println(80);
                     nodes = dataConverter.returnConvertedNodes();
                     height = 400;
                     width = (int)Math.round(400 * (bounds[3]-bounds[1])/(bounds[2]-bounds[0]));
                     drawMapGraph();
+                    System.out.println(100);
                 }catch(FileNotFoundException fileException){
                     JOptionPane.showMessageDialog(contentPane, "Error: file may not exist yet");
                 }catch(Exception anotherException){
@@ -80,6 +136,10 @@ public class MainView extends JDialog {
         });
     }
 
+    /**
+     * Main
+     * @param args
+     */
     public static void main(String[] args) {
         MainView dialog = new MainView();
         dialog.pack();
@@ -87,8 +147,12 @@ public class MainView extends JDialog {
         System.exit(0);
     }
 
+    /**
+     * Opens file using dialog
+     */
     private void openFile(){
         final JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Opening file...");
         final int returnedValue = fc.showOpenDialog(contentPane);
         if(returnedValue == JFileChooser.APPROVE_OPTION){
             final File file= fc.getSelectedFile();
@@ -99,8 +163,12 @@ public class MainView extends JDialog {
         }
     }
 
+    /**
+     * Saves graph as text
+     */
     private void saveFile(){
         JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Saving as text...");
         final int returnedValue = fc.showSaveDialog(contentPane);
         if(returnedValue == JFileChooser.APPROVE_OPTION){
             final File file = fc.getSelectedFile();
@@ -133,8 +201,12 @@ public class MainView extends JDialog {
         }
     }
 
+    /**
+     * Saves graph as image
+     */
     private void saveImage(){
         JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Saving as image...");
         final int returnedValue = fc.showSaveDialog(contentPane);
         if(returnedValue == JFileChooser.APPROVE_OPTION){
             try {
@@ -151,6 +223,9 @@ public class MainView extends JDialog {
         }
     }
 
+    /**
+     * Draws graph on BufferedImage and makes it visible
+     */
     private void drawMapGraph(){
         image.setSize(width, height);
         graph = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -160,22 +235,17 @@ public class MainView extends JDialog {
         grph.setColor(Color.BLACK);
         int x1=0, x2=0, y1=0, y2=0;
         Node n2;
-        double dst;
         for(Node n: nodes.values()){
             x1 = (int)Math.round(width * (n.getLongitude()-bounds[1])/(bounds[3]-bounds[1]));
             y1 = (int)Math.round(height -height * (n.getLatitude()-bounds[0])/(bounds[2]-bounds[0]));
             for(int i =0; i<n.getEdges().size(); i++){
-                //if(Long.parseLong(n.getId())<Long.parseLong(n2.getId())) {
                     n2 = n.getEdges().get(i);
-                    dst = n.getDistances().get(i);
                     x2 = (int) Math.round(width * (n2.getLongitude() - bounds[1]) / (bounds[3] - bounds[1]));
                     y2 = (int) Math.round(height - height * (n2.getLatitude() - bounds[0]) / (bounds[2] - bounds[0]));
                     grph.drawLine(x1, y1, x2, y2);
-                    //grph.drawString(Double.toString(dst), (x1+x2)/2, (y1+y2)/2 );
-                //}
             }
             grph.setColor(Color.BLUE);
-            grph.fillRect(x1-1,y1-1, 2,2);
+            grph.fillRect(x1-1,y1-1, 2, 2);
             grph.setColor(Color.BLACK);
         }
         image.setIcon(new ImageIcon(graph));
