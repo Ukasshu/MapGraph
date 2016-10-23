@@ -1,5 +1,4 @@
 import MapElements.Node;
-import sun.plugin2.util.ColorUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
