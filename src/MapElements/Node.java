@@ -1,5 +1,6 @@
 package MapElements;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * @author Łukasz Mielczarek
  * @version 21.10.2016
  */
-public class Node {
+public class Node implements Serializable{
     /**
      * Id of point usen in OpenStreetMap
      */

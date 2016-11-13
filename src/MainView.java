@@ -6,10 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -62,19 +60,19 @@ public class MainView extends JDialog {
     /**
      * Used to create graphical version of graph
      */
-    private BufferedImage graph =null;
+    private BufferedImage graph = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
     /**
      * Holds map's boundaries provided by MapReader
      */
-    private double bounds[];
+    private Double bounds[];
     /**
      * Height of image
      */
-    private int height;
+    private Integer height;
     /**
      * Width of image
      */
-    private int width;
+    private Integer width;
 
     /**
      * Default constructor
@@ -137,9 +135,52 @@ public class MainView extends JDialog {
      */
     public static void main(String[] args) {
         MainView dialog = new MainView();
+        try{
+            dialog.deserialize();
+        }catch (Exception e){
+        }
+        dialog.image.setIcon(new ImageIcon(dialog.graph));
         dialog.pack();
         dialog.setVisible(true);
+        try {
+            dialog.serialize();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         System.exit(0);
+    }
+
+    public void deserialize() throws IOException, ClassNotFoundException{
+        FileInputStream fis = new FileInputStream("./data");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        ArrayList<Object> objects = (ArrayList<Object>)ois.readObject();
+        this.nodes = (HashMap<String, Node>) objects.remove(0);
+        this.mapReader = (MapReader) objects.remove(0);
+        this.dataConverter = (DataConverter) objects.remove(0);
+        this.bounds = (Double[]) objects.remove(0);
+        this.width = (Integer) objects.remove(0);
+        this.height = (Integer) objects.remove(0);
+        ois.close();
+        fis.close();
+        File file = new File("./image");
+        this.graph = ImageIO.read(file);
+    }
+
+    public void serialize() throws IOException{
+        FileOutputStream fos = new FileOutputStream("./data");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        ArrayList<Object> objects = new ArrayList<>();
+        objects.add(this.nodes);
+        objects.add(this.mapReader);
+        objects.add(this.dataConverter);
+        objects.add(this.bounds);
+        objects.add(this.width);
+        objects.add(this.height);
+        oos.writeObject(objects);
+        oos.close();
+        fos.close();
+        File file = new File("./image");
+        ImageIO.write(graph, "png", file);
     }
 
     /**

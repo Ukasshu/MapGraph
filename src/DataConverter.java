@@ -2,6 +2,7 @@ import DataConverterExceptions.DataNotConvertedYetException;
 import MapElements.Node;
 import MapElements.Way;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
@@ -12,7 +13,7 @@ import java.util.ListIterator;
  * @author Łukasz Mielczarek
  * @version 21.10.2016
  */
-public class DataConverter {
+public class DataConverter implements Serializable{
     /**
      * Holds Nodes provided by MapReader that are changed then
      */

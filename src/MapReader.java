@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import MapReaderExceptions.*;
  * @author Łukasz Mielczarek
  * @version 20.10.2016
  */
-public class MapReader {
+public class MapReader implements Serializable{
     /**
      * Represents opened file
      */
@@ -21,7 +22,7 @@ public class MapReader {
     /**
      * Used to read read file
      */
-    private Scanner input;
+    private transient Scanner input;
     /**
      * Remembers if Nodes are already read
      */
@@ -49,7 +50,7 @@ public class MapReader {
     /**
      * Holds boundaries of map represented by file
      */
-    private double bounds[];
+    private Double bounds[];
 
     /**
      * Default constructor
@@ -91,7 +92,7 @@ public class MapReader {
         if (areBoundsAlreadyRead){
             throw new BoundsAlreadyReadException("Bounds have been already read!");
         }
-        bounds = new double[4];
+        bounds = new Double[4];
         this.currentLine = input.nextLine();
         while(!this.currentLine.matches("(.*)<bounds minlat(.*)")){
             this.currentLine = input.nextLine();
@@ -189,6 +190,7 @@ public class MapReader {
         this.readBounds();
         this.readNodes();
         this.readWays();
+        this.input.close();
     }
 
     /**
@@ -208,7 +210,7 @@ public class MapReader {
      * @return array with boundaries
      * @throws BoundsNotReadYetException if boundaries have not been read yet
      */
-    public double[] getBounds() throws BoundsNotReadYetException {
+    public Double[] getBounds() throws BoundsNotReadYetException {
         if(!areBoundsAlreadyRead){
             throw new BoundsNotReadYetException("Bounds have not been read yet!");
         }

@@ -1,5 +1,6 @@
 package MapElements;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * @author Łukasz Mielczarek
  * @version 21.10.2016
  */
-public class Way {
+public class Way implements Serializable{
     /**
      * Container used to hold Nodes included in the Way
      */
@@ -41,7 +42,7 @@ public class Way {
         roundabout = false;
     }
 
-    /**
+     /**
      * Adds Node included in the Way
      * @param node Node included in the way
      */
